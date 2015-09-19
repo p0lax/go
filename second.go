@@ -1,21 +1,25 @@
+/*Closure function test*/
 package main
 
 import (
 	"fmt"
-	"reflect"
 )
 
+type funcs func() int
+const FUNCS_LIST_SIZE int = 10
+
 func main() {
-	x := make([]interface{}, 10, 10)
-	for i := 0; i < 10; i ++{
-		x[i] = func () int {
-			return i;
-		}
+	x := make([]funcs, FUNCS_LIST_SIZE)
+	for i := 0; i < FUNCS_LIST_SIZE; i ++{
+		func(i int) {
+			x[i] = func () int {
+				return i;
+			}
+		}(i)
 	}
 	fmt.Println(x)
 	for _, j := range x {
-		f := reflect.ValueOf(j)
-		fmt.Println(f)
+		fmt.Println(j())
 	}
 }
 
