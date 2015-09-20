@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func test(res http.ResponseWriter, req *http.Request) {
+func server(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set(
 		"Content-Type",
 		"text/html",
@@ -26,7 +26,6 @@ func test(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/hello", test)
+	http.HandleFunc("/", server)
 	http.ListenAndServe(":9000", nil)
-	fmt.Println("Started ")
 }
