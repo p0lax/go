@@ -14,7 +14,10 @@ func createArray(len int) []int {
 	return result
 }
 
+
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	fmt.Println(createArray(5))
+
+
 }

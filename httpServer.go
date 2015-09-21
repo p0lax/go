@@ -3,29 +3,31 @@ package main
 import (
 	"net/http"
 	"io"
-	"fmt"
+	"log"
 )
 
-func server(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set(
-		"Content-Type",
-		"text/html",
-	)
-	io.WriteString(
-		res,
-		`<doctype html>
-		<html>
-			<head>
-				<title>Hello World</title>
-			</head>
-			<body>
-				Hello World!
-			</body>
-		</html>`,
-	)
+func handle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	jsonStr := `[{"Name":"Adam","Age":36,"Job":"CEO"},
+		  {"Name":"Eve","Age":34,"Job":"CFO"},
+		  {"Name":"Mike","Age":38,"Job":"COO"}]`
+	switch r.Method {
+	case "GET":
+		r.Write([]byte(jsonStr))
+		// Serve the resource.
+	case "POST":
+	// Create a new record.
+	case "PUT":
+	// Update an existing record.
+	case "DELETE":
+	// Remove the record.
+	default:
+		panic("Can't detect API method!")
+	}
 }
 
 func main() {
-	http.HandleFunc("/", server)
+	log.Println("Listenng...")
+	http.HandleFunc("/", handle)
 	http.ListenAndServe(":9000", nil)
 }
