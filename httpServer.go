@@ -1,19 +1,26 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
-	"io"
 	"log"
 )
 
+type Test struct{
+	a string
+}
+
 func handle(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	jsonStr := `[{"Name":"Adam","Age":36,"Job":"CEO"},
-		  {"Name":"Eve","Age":34,"Job":"CFO"},
-		  {"Name":"Mike","Age":38,"Job":"COO"}]`
+	test := Test{a:"1111"}
+	js, err := json.Marshal(test)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	switch r.Method {
 	case "GET":
-		r.Write([]byte(jsonStr))
+		w.Header().Set("Content-Type", "application/json")
+		r.Write(js)
 		// Serve the resource.
 	case "POST":
 	// Create a new record.
