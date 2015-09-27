@@ -6,21 +6,24 @@ import (
 	"log"
 )
 
-type Test struct{
-	a string
+type Person struct{
+	Name string
+	Age int
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	test := Test{a:"1111"}
-	js, err := json.Marshal(test)
+	person := Person{"Name", 11}
+	js, err := json.Marshal(person)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 	switch r.Method {
 	case "GET":
-		w.Header().Set("Content-Type", "application/json")
-		r.Write(js)
+		//w.Header().Set("Content-Type", "application/json")
+		//w.Write(js)
 		// Serve the resource.
 	case "POST":
 	// Create a new record.
