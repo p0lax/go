@@ -18,12 +18,10 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
 	switch r.Method {
 	case "GET":
-		//w.Header().Set("Content-Type", "application/json")
-		//w.Write(js)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 		// Serve the resource.
 	case "POST":
 	// Create a new record.
