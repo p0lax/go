@@ -20,6 +20,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.Method {
 	case "GET":
+		log.Println(r.query);
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		// Serve the resource.
