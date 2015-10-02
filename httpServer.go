@@ -6,25 +6,21 @@ import (
 	"log"
 )
 
-type Person struct{
-	Name string
-	Age int
-}
-
 func handle(w http.ResponseWriter, r *http.Request) {
-	person := Person{"Name", 11}
-	js, err := json.Marshal(person)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	var testMap [string]string
 	switch r.Method {
 	case "GET":
 		query := r.URL.Query()
 		for key := range query {
 			log.Println(key, query.Get(key));
+			testMap[key] = query.Get(key)
 		}
 		w.Header().Set("Content-Type", "application/json")
+		js, err := json.Marshal(testMap)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		w.Write(js)
 		// Serve the resource.
 	case "POST":
