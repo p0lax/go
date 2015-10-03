@@ -7,13 +7,13 @@ import (
 )
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	var testMap [string]string
+	testMap := make(map[string]string)
 	switch r.Method {
 	case "GET":
 		query := r.URL.Query()
 		for key := range query {
 			log.Println(key, query.Get(key));
-			testMap[key] = query.Get(key)
+			testMap[key] = string(query.Get(key))
 		}
 		w.Header().Set("Content-Type", "application/json")
 		js, err := json.Marshal(testMap)
