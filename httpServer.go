@@ -23,6 +23,8 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		w.Write(js)
 		// Serve the resource.
 	case "POST":
+		decoder := json.NewDecoder(r.Body)
+		w.Header().Set("Content-Type", "application/json")
 	// Create a new record.
 	case "PUT":
 	// Update an existing record.
