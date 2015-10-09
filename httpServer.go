@@ -8,6 +8,16 @@ import (
 	"fmt"
 )
 
+type SuccessResponse struct  {
+	code int32
+	message string
+	status bool
+}
+
+type Request struct {
+	isSuccess bool
+}
+
 func handle(w http.ResponseWriter, r *http.Request) {
 	paramsMap := make(map[string]string)
 	switch r.Method {
@@ -17,21 +27,25 @@ func handle(w http.ResponseWriter, r *http.Request) {
 			paramsMap[key] = string(query.Get(key))
 		}
 		w.Header().Set("Content-Type", "application/json")
-		js, err := json.Marshal(paramsMap)
+		data, err := json.Marshal(paramsMap)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.Write(js)
+		w.Write(data)
 	case "POST":
-		hah, err := ioutil.ReadAll(r.Body);
+		data, err := ioutil.ReadAll(r.Body);
 		if err != nil {
     		fmt.Println(err)
     	}
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(hah)
-	// Create a new record.
+		w.Write(data)
 	case "PUT":
+		var data Request
+		if err := json.Unmarshal(r.Body, &data); err != nil {
+			panic(err);
+		}
+		fmt.Println(data)
 	// Update an existing record.
 	case "DELETE":
 	// Remove the record.
